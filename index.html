@@ -1,581 +1,646 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Learning Mentor & Career Preparation Assistant</title>
-    <meta name="description" content="An interactive companion for visual career roadmap tracking, AI study mentoring, mock interviews, resume optimization, and job application management.">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mentora - Smart Learning Mentor & Career Guide</title>
+  <!-- Google Fonts: Plus Jakarta Sans for headings, Inter for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="app-container">
-        <!-- Sidebar Navigation -->
-        <aside>
-            <div class="logo-container">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                    </svg>
-                </div>
-                <div class="logo-text">
-                    <h1>Aegis Mentor</h1>
-                    <span>Career Prep Suite</span>
-                </div>
-            </div>
-
-            <nav>
-                <div class="nav-item active" data-view="dashboard" id="nav-dashboard">
-                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
-                    Dashboard
-                </div>
-                <div class="nav-item" data-view="roadmap" id="nav-roadmap">
-                    <svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-                    Roadmaps
-                </div>
-                <div class="nav-item" data-view="mentor" id="nav-mentor">
-                    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                    AI Mentor
-                </div>
-                <div class="nav-item" data-view="resume" id="nav-resume">
-                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                    Resume Optimizer
-                </div>
-                <div class="nav-item" data-view="interview" id="nav-interview">
-                    <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 19v4M8 23h8"/></svg>
-                    Mock Interview
-                </div>
-                <div class="nav-item" data-view="quiz" id="nav-quiz">
-                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    Assessments
-                </div>
-                <div class="nav-item" data-view="tracker" id="nav-tracker">
-                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
-                    Job Tracker
-                </div>
-            </nav>
-
-            <div class="user-profile">
-                <div class="avatar" id="user-avatar-initial">U</div>
-                <div class="user-info">
-                    <div class="user-name" id="profile-name">Alex Dev</div>
-                    <div class="user-title" id="profile-status">Career Prep Active</div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Main Display Container -->
-        <main>
-            <header>
-                <div class="header-title">
-                    <h2 id="view-title">Dashboard</h2>
-                    <p id="view-subtitle">Overview of your learning journey and prep progress</p>
-                </div>
-                <div class="header-actions">
-                    <div class="quick-stats">
-                        <div class="stat-chip">
-                            <span class="stat-chip-label">Prep Score:</span>
-                            <span class="stat-chip-value" id="header-prep-score">0%</span>
-                        </div>
-                    </div>
-                    <button class="btn btn-secondary" id="reset-progress-btn">Reset All Data</button>
-                </div>
-            </header>
-
-            <!-- 1. DASHBOARD VIEW -->
-            <div id="view-dashboard" class="view-panel active-view">
-                <div class="dashboard-grid">
-                    <!-- Hero/Welcome Card -->
-                    <div class="card dashboard-hero">
-                        <div class="hero-welcome">
-                            <h3 id="welcome-message">Welcome Back, Alex!</h3>
-                            <p>You are making excellent progress toward your career targets. Use Aegis Mentor today to push your technical capabilities further.</p>
-                        </div>
-                        <div class="hero-quote" id="daily-quote">
-                            "The expert in anything was once a beginner." — Helen Hayes
-                        </div>
-                    </div>
-
-                    <!-- Circular Progress Card -->
-                    <div class="card dashboard-overall-progress">
-                        <h4 class="card-title">Overall Prep Progress</h4>
-                        <div class="progress-ring-container">
-                            <svg class="progress-ring" width="140" height="140">
-                                <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="transparent" r="60" cx="70" cy="70" />
-                                <circle class="progress-ring-circle" id="dashboard-progress-ring" stroke="var(--primary)" stroke-width="8" fill="transparent" r="60" cx="70" cy="70" />
-                            </svg>
-                            <div class="progress-ring-text" id="dashboard-progress-percent">0%</div>
-                        </div>
-                        <p style="font-size: 0.85rem; color: var(--text-secondary);">Subskills and roadmaps completed</p>
-                    </div>
-
-                    <!-- Row of Stat Widgets -->
-                    <div class="stat-grid">
-                        <div class="card stat-card">
-                            <div class="stat-icon">
-                                <svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-                            </div>
-                            <div class="stat-details">
-                                <h4>Roadmaps Started</h4>
-                                <p id="stat-roadmaps">0 / 3</p>
-                            </div>
-                        </div>
-                        <div class="card stat-card">
-                            <div class="stat-icon" style="color: var(--secondary);">
-                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                            </div>
-                            <div class="stat-details">
-                                <h4>Quizzes Passed</h4>
-                                <p id="stat-quizzes">0</p>
-                            </div>
-                        </div>
-                        <div class="card stat-card">
-                            <div class="stat-icon" style="color: var(--success);">
-                                <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 19v4M8 23h8"/></svg>
-                            </div>
-                            <div class="stat-details">
-                                <h4>Interviews Done</h4>
-                                <p id="stat-interviews">0</p>
-                            </div>
-                        </div>
-                        <div class="card stat-card">
-                            <div class="stat-icon" style="color: var(--warning);">
-                                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
-                            </div>
-                            <div class="stat-details">
-                                <h4>Jobs Tracked</h4>
-                                <p id="stat-jobs">0</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Daily Actions -->
-                    <div class="card dashboard-recommendations">
-                        <h4 class="card-title">Daily Study Actions</h4>
-                        <div class="recommendations-list" id="recommendations-list">
-                            <!-- Dynamic Content -->
-                        </div>
-                    </div>
-
-                    <!-- Recent Activity Timeline -->
-                    <div class="card dashboard-activity">
-                        <h4 class="card-title">Recent Activity Log</h4>
-                        <div class="activity-timeline" id="activity-timeline">
-                            <!-- Dynamic Content -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 2. ROADMAPS VIEW -->
-            <div id="view-roadmap" class="view-panel">
-                <div class="roadmap-container">
-                    <div class="roadmap-selector" id="roadmap-selector-tabs">
-                        <!-- Dynamic Career Tabs -->
-                    </div>
-
-                    <div class="roadmap-layout">
-                        <!-- Central Timeline Nodes -->
-                        <div class="roadmap-canvas" id="roadmap-canvas-nodes">
-                            <!-- Dynamic Nodes -->
-                        </div>
-
-                        <!-- Sidebar Detail Drawer -->
-                        <div class="roadmap-sidebar">
-                            <div class="card roadmap-detail-card" id="roadmap-detail-card">
-                                <div class="node-details-empty" id="node-details-empty">
-                                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                    <p>Select a roadmap node to view subskills, learning milestones, and reference guides.</p>
-                                </div>
-                                <div class="node-details-content" id="node-details-content" style="display: none;">
-                                    <div class="detail-header">
-                                        <span class="node-badge" id="detail-node-badge">CORE</span>
-                                        <h3 id="detail-node-title">HTML & CSS</h3>
-                                        <p id="detail-node-duration" style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem;">Duration: 2 weeks</p>
-                                    </div>
-                                    <p id="detail-node-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-secondary); margin-bottom: 1.5rem;">Node description...</p>
-                                    
-                                    <div class="detail-subskills">
-                                        <h4 style="font-family: var(--font-heading); font-size: 0.95rem;">Subskill Checklist</h4>
-                                        <div class="subskill-list" id="detail-subskill-list">
-                                            <!-- Subskills with checkboxes -->
-                                        </div>
-                                    </div>
-
-                                    <div class="detail-resources">
-                                        <h4>Recommended References</h4>
-                                        <div class="resource-list" id="detail-resource-list">
-                                            <!-- Links -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. AI MENTOR VIEW -->
-            <div id="view-mentor" class="view-panel">
-                <div class="chat-container">
-                    <!-- Left profile sidebar -->
-                    <div class="card mentor-profile-card">
-                        <div style="width: 100%;">
-                            <div class="mentor-avatar-large">🤖</div>
-                            <div class="mentor-info">
-                                <h3>Athena AI</h3>
-                                <p>Lead Development Coach</p>
-                            </div>
-                            <div class="mentor-topics">
-                                <h4>Suggested Topics</h4>
-                                <div class="topic-tags">
-                                    <span class="topic-tag" onclick="window.askMentor('Explain database indexing')">Explain Indexing</span>
-                                    <span class="topic-tag" onclick="window.askMentor('Explain React hooks')">React Hooks</span>
-                                    <span class="topic-tag" onclick="window.askMentor('What is Retrieval-Augmented Generation?')">What is RAG?</span>
-                                    <span class="topic-tag" onclick="window.askMentor('Can you give me a 4-week study plan?')">4-Week Plan</span>
-                                    <span class="topic-tag" onclick="window.askMentor('What are some good resume tips?')">Resume Tips</span>
-                                </div>
-                            </div>
-                        </div>
-                        <p style="font-size: 0.75rem; color: var(--text-muted);">Responses are dynamically simulated locally by your career assistant.</p>
-                    </div>
-
-                    <!-- Right chat log panel -->
-                    <div class="chat-area">
-                        <div class="chat-history" id="chat-history-log">
-                            <!-- Message bubbles -->
-                        </div>
-                        <form id="chat-input-form" class="chat-inputs">
-                            <input type="text" class="chat-input" id="chat-input-field" placeholder="Ask Athena a career question or request a technical explanation..." autocomplete="off">
-                            <button type="submit" class="btn btn-primary" style="padding: 0 1.5rem;">Send</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 4. RESUME OPTIMIZER VIEW -->
-            <div id="view-resume" class="view-panel">
-                <div class="resume-analyzer-layout">
-                    <!-- Text inputs -->
-                    <div class="card resume-inputs">
-                        <h4 class="card-title">Resume & Target Job Profiles</h4>
-                        <div class="form-group">
-                            <label for="resume-target-role">Target Role Pathway</label>
-                            <select id="resume-target-role" class="form-select">
-                                <option value="frontend">Frontend Developer</option>
-                                <option value="backend">Backend Systems Engineer</option>
-                                <option value="ai_engineer">AI & Machine Learning Engineer</option>
-                                <option value="mobile_dev">Mobile App Developer</option>
-                                <option value="data_analyst">Data Analyst & Business Intelligence</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="resume-text-input">Paste Your Resume Text</label>
-                            <textarea id="resume-text-input" class="form-textarea" placeholder="Paste your professional summary, experience description, and skills table here..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="job-desc-input">Paste Target Job Description</label>
-                            <textarea id="job-desc-input" class="form-textarea" placeholder="Paste the job description from LinkedIn, Indeed, etc., to scan for missing keywords..."></textarea>
-                        </div>
-                        <button class="btn btn-primary" id="analyze-resume-btn">Analyze Resume Match</button>
-                    </div>
-
-                    <!-- Analysis Output -->
-                    <div class="card analysis-results-card" id="resume-analysis-results" style="display: none;">
-                        <h4 class="card-title">Match Optimization Analysis</h4>
-                        
-                        <div class="analysis-score-container">
-                            <div class="progress-ring-container">
-                                <svg class="progress-ring" width="110" height="110">
-                                    <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.05)" stroke-width="6" fill="transparent" r="45" cx="55" cy="55" />
-                                    <circle class="progress-ring-circle" id="resume-match-ring" stroke="var(--secondary)" stroke-width="6" fill="transparent" r="45" cx="55" cy="55" />
-                                </svg>
-                                <div class="progress-ring-text" id="resume-match-score" style="font-size: 1.35rem;">0%</div>
-                            </div>
-                            <div class="score-breakdown">
-                                <div class="score-bar-group">
-                                    <h5>Keyword Alignment <span id="val-align">0%</span></h5>
-                                    <div class="score-bar-bg"><div class="score-bar-fill" id="bar-align" style="width: 0%"></div></div>
-                                </div>
-                                <div class="score-bar-group">
-                                    <h5>Formatting Structure <span id="val-format">0%</span></h5>
-                                    <div class="score-bar-bg"><div class="score-bar-fill" id="bar-format" style="width: 0%"></div></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="results-sections">
-                            <div class="result-section">
-                                <h4>Scanned Keywords Matches</h4>
-                                <div class="keyword-grid" id="scanned-keywords-list">
-                                    <!-- Matches / Misses tags -->
-                                </div>
-                            </div>
-                            <div class="result-section">
-                                <h4>Format Optimization Checklist</h4>
-                                <ul class="action-bullets" id="format-checklist-list">
-                                    <!-- Dynamic items -->
-                                </ul>
-                            </div>
-                            <div class="result-section">
-                                <h4>Suggested Mentor Actions</h4>
-                                <ul class="action-bullets" id="suggested-actions-list">
-                                    <!-- Recommendations -->
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5. MOCK INTERVIEW VIEW -->
-            <div id="view-interview" class="view-panel">
-                <!-- Setup Screen -->
-                <div class="card interview-setup" id="interview-setup-screen">
-                    <h4 class="card-title">Configure Interview Simulator</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.5rem;">
-                        Simulate a real-time behavioral or technical interview. You can answer via text, or tap record to simulate speech answers (Speech recognition enabled via your browser API).
-                    </p>
-                    <div class="form-group">
-                        <label for="interview-role-select">Select Interview Sector</label>
-                        <select id="interview-role-select" class="form-select">
-                            <option value="frontend">Frontend Development</option>
-                            <option value="backend">Backend Systems Engineering</option>
-                            <option value="ai_engineer">AI & Machine Learning</option>
-                            <option value="mobile_dev">Mobile App Development</option>
-                            <option value="data_analyst">Data Analyst & Business Intelligence</option>
-                            <option value="behavioral">General Behavioral / STAR Method</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary" id="start-interview-btn">Start Mock Interview Session</button>
-                </div>
-
-                <!-- Active Interview Screen -->
-                <div class="interview-panel" id="interview-active-panel" style="display: none;">
-                    <div class="card question-box">
-                        <div>
-                            <span class="interview-question-number" id="interview-question-count">Question 1 of 3</span>
-                            <div class="interview-question-text" id="interview-question-text">
-                                Question text goes here...
-                            </div>
-                        </div>
-
-                        <div class="response-controls">
-                            <div class="form-group">
-                                <label style="font-size: 0.85rem; color: var(--text-secondary);">Your Verbal or Written Answer:</label>
-                                <textarea class="text-response-input" id="interview-response-text" placeholder="Type your answer here or click record below to speak..."></textarea>
-                            </div>
-                            <div class="voice-recording-area">
-                                <button class="record-btn" id="interview-record-btn" title="Toggle voice recording">
-                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 19v4M8 23h8"/></svg>
-                                </button>
-                                <div class="waveform" id="interview-waveform">
-                                    <!-- Wave visualizer bars -->
-                                    <div class="wave-bar"></div>
-                                    <div class="wave-bar"></div>
-                                    <div class="wave-bar"></div>
-                                    <div class="wave-bar"></div>
-                                    <div class="wave-bar"></div>
-                                    <div class="wave-bar"></div>
-                                </div>
-                                <span id="recording-status" style="font-size: 0.8rem; color: var(--text-secondary);">Click red button to record</span>
-                            </div>
-                            <div class="flex-row">
-                                <button class="btn btn-primary" id="submit-answer-btn">Submit Answer</button>
-                                <button class="btn btn-secondary" id="skip-question-btn">Skip Question</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right Feedback Drawer -->
-                    <div class="feedback-panel" id="interview-feedback-drawer">
-                        <div class="card" id="feedback-result-card" style="display: none; height: 100%; display: flex; flex-direction: column; gap: 1rem; overflow-y: auto;">
-                            <h4 class="card-title">AI Performance Review</h4>
-                            <div>
-                                <span class="stat-chip-label">Evaluation Score:</span>
-                                <div class="feedback-score" id="feedback-evaluation-score">0 / 10</div>
-                            </div>
-                            <div>
-                                <h5 style="font-size: 0.85rem; margin-bottom: 0.25rem;">Performance Assessment:</h5>
-                                <p id="feedback-evaluation-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;"></p>
-                            </div>
-                            <div>
-                                <h5 style="font-size: 0.85rem; margin-bottom: 0.25rem;">Expert Model Response:</h5>
-                                <div class="model-answer" id="feedback-model-answer"></div>
-                            </div>
-                            <button class="btn btn-primary" id="next-question-btn" style="margin-top: auto;">Next Question</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Interview Completion Screen -->
-                <div class="card quiz-results-card" id="interview-completed-screen" style="display: none;">
-                    <div class="mentor-avatar-large" style="margin: 0 auto 1.5rem auto; font-size: 2rem;">🏆</div>
-                    <h3 style="font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 0.5rem;">Mock Interview Completed!</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Your performance has been reviewed and logged to your activity tracker.</p>
-                    <div class="quiz-score-circle" style="border-color: var(--success); background: rgba(16, 185, 129, 0.1);">
-                        <div class="quiz-score-value" id="interview-final-average">0.0</div>
-                        <span style="font-size: 0.75rem; color: var(--text-secondary);">Avg Rating / 10</span>
-                    </div>
-                    <button class="btn btn-primary" id="restart-interview-session-btn">Start Another Mock Interview</button>
-                </div>
-            </div>
-
-            <!-- 6. SKILL ASSESSMENT VIEW -->
-            <div id="view-quiz" class="view-panel">
-                <!-- Setup Screen -->
-                <div class="card quiz-setup" id="quiz-setup-screen">
-                    <h4 class="card-title">Select Assessment Field</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.5rem;">
-                        Test your technical competence. Every assessment consists of multiple choice questions. You have 30 seconds per question.
-                    </p>
-                    <div class="form-group">
-                        <label for="quiz-topic-select">Select Quiz Topic</label>
-                        <select id="quiz-topic-select" class="form-select">
-                            <option value="frontend">Frontend Architecture</option>
-                            <option value="backend">Backend Systems</option>
-                            <option value="ai_engineer">Artificial Intelligence / Machine Learning</option>
-                            <option value="mobile_dev">Mobile App Development</option>
-                            <option value="data_analyst">Data Analyst & Business Intelligence</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary" id="start-quiz-btn">Begin Skills Test</button>
-                </div>
-
-                <!-- Live Quiz Card -->
-                <div class="card quiz-card" id="quiz-active-card" style="display: none;">
-                    <div class="quiz-timer-bar-bg"><div class="quiz-timer-bar" id="quiz-timer-bar-fill"></div></div>
-                    
-                    <div class="quiz-question-header">
-                        <span style="font-size: 0.8rem; color: var(--secondary); font-weight: 600;" id="quiz-question-counter">Question 1 of 5</span>
-                        <span class="quiz-timer-text" id="quiz-timer-text">Timer: 30s</span>
-                    </div>
-
-                    <div class="quiz-question" id="quiz-question-text">
-                        Loading question...
-                    </div>
-
-                    <div class="quiz-options" id="quiz-options-container">
-                        <!-- Dynamic Options -->
-                    </div>
-
-                    <div class="quiz-explanation" id="quiz-explanation-box" style="display: none;">
-                        <h4 style="font-family: var(--font-heading); margin-bottom: 0.25rem;">Explanation:</h4>
-                        <p id="quiz-explanation-text"></p>
-                    </div>
-
-                    <div class="flex-row" style="margin-top: 1.5rem; justify-content: flex-end;">
-                        <button class="btn btn-primary" id="quiz-next-btn" style="display: none;">Next Question</button>
-                    </div>
-                </div>
-
-                <!-- Results Screen -->
-                <div class="card quiz-results-card" id="quiz-results-screen" style="display: none;">
-                    <h3 style="font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 0.5rem;">Assessment Finished!</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;" id="quiz-results-desc">You scored:</p>
-                    <div class="quiz-score-circle">
-                        <div class="quiz-score-value" id="quiz-final-score">0 / 0</div>
-                        <span style="font-size: 0.75rem; color: var(--text-secondary);" id="quiz-final-percent">0%</span>
-                    </div>
-                    <button class="btn btn-primary" id="restart-quiz-btn">Try Another Topic</button>
-                </div>
-            </div>
-
-            <!-- 7. JOB TRACKER VIEW -->
-            <div id="view-tracker" class="view-panel">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                    <h4 class="card-title" style="margin: 0;">Kanban Application Board</h4>
-                    <button class="btn btn-primary" id="add-job-card-btn">+ Add Job Application</button>
-                </div>
-
-                <div class="kanban-board">
-                    <!-- Column: Wishlist -->
-                    <div class="kanban-column">
-                        <div class="column-header wishlist">
-                            <span class="column-title">Target/Wishlist</span>
-                            <span class="column-count" id="count-wishlist">0</span>
-                        </div>
-                        <div class="kanban-cards" id="cards-wishlist" ondragover="allowDrop(event)" ondrop="dropCard(event, 'wishlist')">
-                            <!-- Drag Cards -->
-                        </div>
-                    </div>
-
-                    <!-- Column: Applied -->
-                    <div class="kanban-column">
-                        <div class="column-header applied">
-                            <span class="column-title">Applied</span>
-                            <span class="column-count" id="count-applied">0</span>
-                        </div>
-                        <div class="kanban-cards" id="cards-applied" ondragover="allowDrop(event)" ondrop="dropCard(event, 'applied')">
-                            <!-- Drag Cards -->
-                        </div>
-                    </div>
-
-                    <!-- Column: Interviewing -->
-                    <div class="kanban-column">
-                        <div class="column-header interviewing">
-                            <span class="column-title">Interviewing</span>
-                            <span class="column-count" id="count-interviewing">0</span>
-                        </div>
-                        <div class="kanban-cards" id="cards-interviewing" ondragover="allowDrop(event)" ondrop="dropCard(event, 'interviewing')">
-                            <!-- Drag Cards -->
-                        </div>
-                    </div>
-
-                    <!-- Column: Offers / Done -->
-                    <div class="kanban-column">
-                        <div class="column-header offer">
-                            <span class="column-title">Offers / Archive</span>
-                            <span class="column-count" id="count-offer">0</span>
-                        </div>
-                        <div class="kanban-cards" id="cards-offer" ondragover="allowDrop(event)" ondrop="dropCard(event, 'offer')">
-                            <!-- Drag Cards -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Modals -->
-    <!-- Modal: Add Job -->
-    <div class="modal-overlay" id="add-job-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Add New Job Record</h3>
-                <button class="modal-close" onclick="closeModal('add-job-modal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="job-title-field">Job Role / Title</label>
-                    <input type="text" class="chat-input" id="job-title-field" placeholder="e.g. Associate Backend Engineer">
-                </div>
-                <div class="form-group">
-                    <label for="job-company-field">Company Name</label>
-                    <input type="text" class="chat-input" id="job-company-field" placeholder="e.g. Stripe">
-                </div>
-                <div class="form-group">
-                    <label for="job-column-field">Tracker Stage</label>
-                    <select id="job-column-field" class="form-select">
-                        <option value="wishlist">Wishlist / Target</option>
-                        <option value="applied">Applied</option>
-                        <option value="interviewing">Interviewing</option>
-                        <option value="offer">Offer / Done</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="job-notes-field">Notes / Reference Links</label>
-                    <textarea id="job-notes-field" class="form-textarea" style="height: 80px;" placeholder="Add details like recruiter contacts, prep materials, or referrals..."></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('add-job-modal')">Cancel</button>
-                <button class="btn btn-primary" id="save-job-card-btn">Save Job Card</button>
-            </div>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          <span class="logo-text">Mentora</span>
         </div>
-    </div>
+        <button class="mobile-close-btn" id="mobileCloseBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
 
-    <!-- Script loading -->
-    <script src="data.js"></script>
-    <script src="app.js"></script>
+      <!-- Quick Profile Card in Sidebar -->
+      <div class="sidebar-profile">
+        <div class="profile-avatar-container">
+          <div class="profile-avatar" id="sidebarAvatar">🧭</div>
+          <div class="profile-status-badge"></div>
+        </div>
+        <div class="profile-info">
+          <h4 class="profile-name" id="sidebarName">Student Explorer</h4>
+          <p class="profile-title" id="sidebarTitle">Confused Explorer</p>
+        </div>
+        <div class="profile-xp-progress">
+          <div class="xp-labels">
+            <span class="xp-level" id="sidebarLevelText">Lvl 1</span>
+            <span class="xp-value" id="sidebarXpVal">0 / 1000 XP</span>
+          </div>
+          <div class="xp-bar-bg">
+            <div class="xp-bar-fill" id="sidebarXpBar" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation Menu -->
+      <nav class="sidebar-menu">
+        <button class="menu-item active" data-tab="dashboard">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="9"></rect>
+            <rect x="14" y="3" width="7" height="5"></rect>
+            <rect x="14" y="12" width="7" height="9"></rect>
+            <rect x="3" y="16" width="7" height="5"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="menu-item" data-tab="assessment">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span>Career Diagnosis</span>
+        </button>
+        <button class="menu-item" data-tab="roadmap">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+          <span>Learning Roadmap</span>
+        </button>
+        <button class="menu-item" data-tab="chat">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span>AI Mentor Chat</span>
+        </button>
+        <button class="menu-item" data-tab="interview">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+          </svg>
+          <span>Mock Interview</span>
+        </button>
+        <button class="menu-item" data-tab="resume">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 22 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span>Resume Optimizer</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <button class="settings-btn" id="openSettingsBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>AI Settings</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Panel -->
+    <main class="app-main">
+      <!-- Top Navigation bar -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="mobile-toggle-btn" id="mobileToggleBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <h2 class="view-title" id="viewTitle">Dashboard</h2>
+        </div>
+        <div class="header-right">
+          <!-- Streak Indicator -->
+          <div class="streak-widget" title="Daily streak counter">
+            <svg class="streak-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
+            </svg>
+            <span class="streak-count" id="streakVal">1 Day</span>
+          </div>
+          <!-- XP Indicator -->
+          <div class="xp-badge" id="headerXpBadge">
+            <span class="xp-stars">✨</span>
+            <span id="headerXpText">0 XP</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- View Containers -->
+      <div class="view-content">
+
+        <!-- 1. DASHBOARD VIEW -->
+        <section class="view-section active" id="view-dashboard">
+          <div class="dashboard-hero card">
+            <div class="hero-content">
+              <h1 class="welcome-text">Hi <span id="welcomeName">Explorer</span>! 👋</h1>
+              <p class="welcome-sub" id="welcomeMessage">Ready to clear your doubts and build a custom career path? Start by running the Career Diagnosis quiz!</p>
+              <button class="primary-btn dashboard-action-btn" id="heroActionBtn">Take Career Diagnosis</button>
+            </div>
+            <div class="hero-graphic">🧭</div>
+          </div>
+
+          <!-- Cards Stats Grid -->
+          <div class="stats-grid">
+            <div class="stat-card card">
+              <div class="stat-icon-wrap violet">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div class="stat-data">
+                <p class="stat-label">Total Study Time</p>
+                <h3 class="stat-value" id="statsTime">0 mins</h3>
+              </div>
+            </div>
+            <div class="stat-card card">
+              <div class="stat-icon-wrap emerald">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              </div>
+              <div class="stat-data">
+                <p class="stat-label">Tasks Complete</p>
+                <h3 class="stat-value" id="statsMilestones">0 / 4</h3>
+              </div>
+            </div>
+            <div class="stat-card card">
+              <div class="stat-icon-wrap amber">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 22 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              </div>
+              <div class="stat-data">
+                <p class="stat-label">Resume ATS Score</p>
+                <h3 class="stat-value" id="statsAts">N/A</h3>
+              </div>
+            </div>
+            <div class="stat-card card">
+              <div class="stat-icon-wrap rose">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <div class="stat-data">
+                <p class="stat-label">Interview Score</p>
+                <h3 class="stat-value" id="statsInterview">N/A</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Grid -->
+          <div class="dashboard-details-grid">
+            <div class="dashboard-col card" id="dashboardActiveTrack">
+              <h3 class="card-title">My Career Path</h3>
+              <div class="no-path-state">
+                <p>No active career path selected. Students who complete the Career Diagnostic Test receive tailored learning plans.</p>
+                <button class="secondary-btn btn-sm" onclick="app.switchTab('assessment')">Start Quiz Now</button>
+              </div>
+            </div>
+
+            <div class="dashboard-col card">
+              <h3 class="card-title">Daily Learning Boosts</h3>
+              <div class="challenges-list">
+                <div class="challenge-item" id="quest-1">
+                  <div class="challenge-check"></div>
+                  <div class="challenge-info">
+                    <p class="challenge-title">Core Alignment</p>
+                    <span class="challenge-desc">Complete the Career Aptitude Quiz (+150 XP)</span>
+                  </div>
+                  <span class="quest-xp">+150 XP</span>
+                </div>
+                <div class="challenge-item" id="quest-2">
+                  <div class="challenge-check"></div>
+                  <div class="challenge-info">
+                    <p class="challenge-title">Ask your Mentor</p>
+                    <span class="challenge-desc">Ask your specialized AI mentor a career query (+50 XP)</span>
+                  </div>
+                  <span class="quest-xp">+50 XP</span>
+                </div>
+                <div class="challenge-item" id="quest-3">
+                  <div class="challenge-check"></div>
+                  <div class="challenge-info">
+                    <p class="challenge-title">Mock Simulator</p>
+                    <span class="challenge-desc">Complete 1 mock interview session (+100 XP)</span>
+                  </div>
+                  <span class="quest-xp">+100 XP</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- 2. DIAGNOSTIC ASSESSMENT VIEW -->
+        <section class="view-section" id="view-assessment">
+          <div class="assessment-container">
+            <!-- Intro State -->
+            <div class="assessment-card card active" id="assessmentIntro">
+              <div class="assessment-icon">🧭</div>
+              <h2>Career Aptitude Quiz</h2>
+              <p class="assessment-intro-text">
+                Are you confused about which industry path matches your natural strengths? This interactive 10-question technical quiz measures your logical reasoning, database architectures, system APIs, coding foundations, and AI concepts. 
+              </p>
+              <div class="info-alert">
+                <span class="alert-icon">💡</span>
+                <p class="alert-text">Each question has exactly one correct answer. Wrong answers score 0. After results, you can review explanations for all answers.</p>
+              </div>
+              <button class="primary-btn btn-lg" id="startAssessmentBtn">Start Technical Quiz</button>
+            </div>
+
+            <!-- Quiz State -->
+            <div class="assessment-card card" id="assessmentQuiz">
+              <div class="quiz-progress-bar">
+                <div class="quiz-progress-fill" id="quizProgressFill" style="width: 10%"></div>
+              </div>
+              <div class="quiz-header-info">
+                <span class="question-number" id="questionNumText">Question 1 of 10</span>
+                <span class="assessment-timer" id="quizTimer">00:00</span>
+              </div>
+              <h2 class="question-text" id="questionText">Question Text?</h2>
+              <div class="options-container" id="optionsContainer">
+                <!-- Injected via JavaScript -->
+              </div>
+              <div class="quiz-controls">
+                <button class="secondary-btn" id="prevQuestionBtn" disabled>Back</button>
+                <span class="quiz-dot-nav" id="quizDotNav"></span>
+                <button class="primary-btn" id="nextQuestionBtn">Next</button>
+              </div>
+            </div>
+
+            <!-- Results State -->
+            <div class="assessment-card card" id="assessmentResults">
+              <h2 class="results-title">Quiz Results & Profile Recommendation</h2>
+              <p class="results-subtitle" id="quizResultsSummary">Based on your correct answers, here is your career aptitude score card:</p>
+
+              <!-- Career Fit Breakdown Bars -->
+              <div class="results-breakdown" id="resultsBreakdown">
+                <!-- Injected via JavaScript -->
+              </div>
+
+              <!-- Top Match Summary Card -->
+              <div class="top-match-card" id="topMatchDetails">
+                <!-- Injected via JavaScript -->
+              </div>
+
+              <!-- Corrections review panel -->
+              <div class="quiz-corrections-panel" id="quizCorrectionsPanel" style="display:none;">
+                <h3 style="margin-bottom:16px; border-bottom:1px solid var(--border-color); padding-bottom:12px;">Detailed Review & Explanations</h3>
+                <div class="corrections-list" id="correctionsList">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+
+              <div class="results-actions" style="margin-top: 32px;">
+                <button class="secondary-btn" id="retakeAssessmentBtn">Retake Assessment</button>
+                <button class="primary-btn" id="confirmCareerBtn">Activate Recommended Roadmap</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- 3. LEARNING ROADMAP VIEW -->
+        <section class="view-section" id="view-roadmap">
+          <!-- Warning banner if career not selected -->
+          <div class="warning-banner card active" id="roadmapWarning">
+            <div class="warning-icon">⚠️</div>
+            <h3>No Active Career Path Selected</h3>
+            <p>You need to activate a career path to unlock your learning roadmap. Take the Aptitude Quiz or manually choose a path below:</p>
+            <div class="career-manual-grid">
+              <button class="career-select-card" data-career="frontend">
+                <span class="card-avatar">🌐</span>
+                <h4>Frontend Developer</h4>
+              </button>
+              <button class="career-select-card" data-career="backend">
+                <span class="card-avatar">⚙️</span>
+                <h4>Backend Architect</h4>
+              </button>
+              <button class="career-select-card" data-career="ai">
+                <span class="card-avatar">🧠</span>
+                <h4>AI & Data Engineer</h4>
+              </button>
+              <button class="career-select-card" data-career="pm">
+                <span class="card-avatar">📈</span>
+                <h4>AI Product Manager</h4>
+              </button>
+            </div>
+          </div>
+
+          <!-- Active Roadmap View -->
+          <div class="roadmap-workspace" id="roadmapWorkspace" style="display: none;">
+            <div class="roadmap-header card">
+              <div class="roadmap-header-info">
+                <div class="roadmap-badge-wrap">
+                  <span class="roadmap-path-avatar" id="roadmapAvatarVal">🌐</span>
+                  <div>
+                    <h2 id="roadmapTitleVal">Frontend & AI-UI Engineer Roadmap</h2>
+                    <p id="roadmapDescVal">Follow this sequence to master HTML/CSS/JS, React, and connecting frontends with AI models.</p>
+                  </div>
+                </div>
+                <div class="roadmap-meta">
+                  <div class="roadmap-progress-wrap">
+                    <span id="roadmapProgressPct">0% Complete</span>
+                    <div class="progress-bar-bg">
+                      <div class="progress-bar-fill" id="roadmapProgressBar" style="width: 0%"></div>
+                    </div>
+                  </div>
+                  <button class="secondary-btn btn-sm" id="changeCareerBtn">Change Career Path</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Roadmap Flow Layout -->
+            <div class="roadmap-flow" id="roadmapFlow">
+              <!-- Injected dynamically via JS: Milestones with steps -->
+            </div>
+          </div>
+        </section>
+
+
+        <!-- 4. AI MENTOR CHAT VIEW -->
+        <section class="view-section" id="view-chat">
+          <!-- Warning banner if career not selected -->
+          <div class="warning-banner card active" id="chatWarning">
+            <div class="warning-icon">🤖</div>
+            <h3>Connect with Your Custom AI Mentor</h3>
+            <p>Select a career path first to pair up with a specialized senior mentor in that field.</p>
+            <button class="primary-btn btn-md" onclick="app.switchTab('assessment')">Go to Assessment</button>
+          </div>
+
+          <div class="chat-workspace" id="chatWorkspace" style="display: none;">
+            <div class="chat-sidebar card">
+              <div class="mentor-badge-profile">
+                <div class="mentor-avatar-lg" id="chatMentorAvatar">👨‍💻</div>
+                <h4 id="chatMentorName">Senior UI Architect</h4>
+                <span class="online-tag"><span class="dot"></span>Specialized AI Mentor</span>
+              </div>
+              <hr class="divider">
+              <h5 class="quick-header">Common Career Questions</h5>
+              <div class="quick-questions" id="quickQuestionsBox">
+                <!-- Injected based on active career path -->
+              </div>
+            </div>
+
+            <div class="chat-main card">
+              <div class="chat-messages" id="chatMessagesContainer">
+                <!-- Message history -->
+              </div>
+              <div class="chat-input-area">
+                <textarea class="chat-input" id="chatInputText" placeholder="Ask your mentor a question (e.g. 'How do I query Gemini API in JS?')"></textarea>
+                <button class="primary-btn send-chat-btn" id="sendChatBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- 5. MOCK INTERVIEW VIEW -->
+        <section class="view-section" id="view-interview">
+          <!-- Warning banner if career not selected -->
+          <div class="warning-banner card active" id="interviewWarning">
+            <div class="warning-icon">🎙️</div>
+            <h3>Mock Interview Simulator</h3>
+            <p>Choose a career path to unlock realistic behavioral and technical interview simulations.</p>
+            <button class="primary-btn btn-md" onclick="app.switchTab('assessment')">Choose Career Path</button>
+          </div>
+
+          <!-- Configuration and workspace -->
+          <div class="interview-workspace" id="interviewWorkspace" style="display: none;">
+            
+            <!-- Config Stage -->
+            <div class="interview-setup card" id="interviewSetupPanel">
+              <div class="setup-icon">🏆</div>
+              <h2>Prepare for your Placement Interview</h2>
+              <p>Simulate a realistic mock interview. The AI will ask you questions one-by-one. In the end, get a grade scorecard, correct answers, and feedback recommendations.</p>
+              
+              <div class="setup-form">
+                <div class="form-group">
+                  <label for="interviewStyle">Interview Type</label>
+                  <select id="interviewStyle">
+                    <option value="technical">Technical Focus (Algorithms & Engineering Concepts)</option>
+                    <option value="behavioral">Behavioral Focus (Leadership, Team challenges, STAR method)</option>
+                    <option value="ai-tech">AI Tools Focus (How you integrate LLMs, Prompts & AI tools)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="interviewLevel">Level Difficulty</label>
+                  <select id="interviewLevel">
+                    <option value="intern">Intern / Junior level</option>
+                    <option value="mid">Mid-Level Associate</option>
+                  </select>
+                </div>
+              </div>
+              <button class="primary-btn btn-lg" id="startInterviewBtn">Start Interview Session</button>
+            </div>
+
+            <!-- Active Q&A Interface -->
+            <div class="interview-qa card" id="interviewQaPanel" style="display: none;">
+              <div class="qa-progress-info">
+                <span class="qa-status" id="interviewProgressText">Question 1 of 4</span>
+                <span class="qa-timer" id="interviewTimer">Time: 00:00</span>
+              </div>
+              <div class="interviewer-bubble">
+                <div class="interviewer-avatar">🤖</div>
+                <div class="interviewer-text">
+                  <p class="question-lbl">Interviewer Prompt:</p>
+                  <h3 id="interviewQuestionText">Explain how virtual DOM works in React.</h3>
+                </div>
+              </div>
+              
+              <div class="candidate-response-area">
+                <label for="interviewResponse">Your Typed Response:</label>
+                <textarea id="interviewResponse" placeholder="Type your answer here in detail. Be structured and provide examples if possible..."></textarea>
+                <div class="response-meta">
+                  <span id="charCount">0 characters (minimum 20 recommended)</span>
+                  <span class="helper-text">Shift + Enter for new line</span>
+                </div>
+              </div>
+              <div class="qa-controls">
+                <button class="danger-btn" id="quitInterviewBtn">Quit Session</button>
+                <button class="primary-btn" id="submitAnswerBtn">Submit Answer</button>
+              </div>
+            </div>
+
+            <!-- Scorecard Results -->
+            <div class="interview-scorecard card" id="interviewScorecardPanel" style="display: none;">
+              <div class="scorecard-header">
+                <h2>Interview Scorecard</h2>
+                <p>AI Evaluator report for <span id="scorecardRole">Frontend Developer</span> Interview</p>
+              </div>
+
+              <div class="score-circle-wrapper">
+                <div class="score-circle-outer">
+                  <div class="score-circle-val" id="scorecardPercentage">85%</div>
+                </div>
+                <div class="score-grade-tag" id="scorecardGrade">Grade B+</div>
+              </div>
+
+              <div class="eval-metrics">
+                <div class="metric-item">
+                  <span class="metric-label">Key Strengths</span>
+                  <p id="scorecardStrengths">Clear terminology, solid basic knowledge of hooks, understood state.</p>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Areas to Improve</span>
+                  <p id="scorecardImprovements">Provide concrete examples of vector storage or caching, explain component lifecycles in more depth.</p>
+                </div>
+              </div>
+
+              <h3>Question Breakdown & Model Answers</h3>
+              <div class="question-breakdown-list" id="scorecardQBreakdown">
+                <!-- Injected via JS -->
+              </div>
+
+              <div class="scorecard-footer">
+                <button class="primary-btn btn-lg" id="finishInterviewBtn">Complete & Earn XP</button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+
+        <!-- 6. RESUME OPTIMIZER VIEW -->
+        <section class="view-section" id="view-resume">
+          <!-- Warning banner if career not selected -->
+          <div class="warning-banner card active" id="resumeWarning">
+            <div class="warning-icon">📝</div>
+            <h3>Resume ATS Evaluator</h3>
+            <p>Select a career path to unlock job-specific resume evaluation checklists and keywords advice.</p>
+            <button class="primary-btn btn-md" onclick="app.switchTab('assessment')">Go to Assessment</button>
+          </div>
+
+          <div class="resume-workspace" id="resumeWorkspace" style="display: none;">
+            <div class="resume-grid">
+              <!-- Inputs column -->
+              <div class="resume-inputs-col card">
+                <h3>ATS Match Evaluator</h3>
+                <p>Paste your resume text and target job description to get an automated ATS compatibility score and key vocabulary tips.</p>
+                
+                <div class="form-group">
+                  <label for="resumeText">Your Resume (Paste text here)</label>
+                  <textarea id="resumeText" placeholder="Paste your resume summary, skills, and work history..."></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="jobDescText">Target Job Description (Paste text here)</label>
+                  <textarea id="jobDescText" placeholder="Paste the target job description or paste a standard role listing here..."></textarea>
+                </div>
+
+                <button class="primary-btn btn-lg w-full" id="analyzeResumeBtn">Analyze Resume Compatibility</button>
+              </div>
+
+              <!-- Results column -->
+              <div class="resume-results-col card" id="resumeResultsPanel">
+                <!-- Initial State -->
+                <div class="resume-results-empty" id="resumeResultsEmpty">
+                  <div class="empty-icon">📊</div>
+                  <h4>No Analysis Run</h4>
+                  <p>Input your details and hit 'Analyze' to render your scorecard, missing skills checklist, and action suggestions.</p>
+                </div>
+
+                <!-- Active Analysis Results -->
+                <div class="resume-results-active" id="resumeResultsActive" style="display: none;">
+                  <div class="score-circle-wrapper resume-gauge">
+                    <div class="score-circle-outer">
+                      <div class="score-circle-val" id="resumeMatchPct">0%</div>
+                    </div>
+                    <div class="score-grade-tag" id="resumeMatchRating">Poor Match</div>
+                  </div>
+
+                  <hr class="divider">
+                  
+                  <h4>Match Insights</h4>
+                  <div class="insights-badges">
+                    <div class="insight-badge" id="resumeWordCountBadge">0 Words</div>
+                    <div class="insight-badge" id="resumeSectionBadge">Sections: OK</div>
+                    <div class="insight-badge" id="resumeGradeBadge">Good Layout</div>
+                  </div>
+
+                  <h5 class="section-sub-title">Critical Skill Gaps (Missing Keywords)</h5>
+                  <ul class="missing-skills-list" id="resumeMissingSkills">
+                    <!-- Dynamic -->
+                  </ul>
+
+                  <h5 class="section-sub-title font-medium text-emerald">Matched Keywords Found</h5>
+                  <div class="matched-skills-cloud" id="resumeMatchedSkills">
+                    <!-- Dynamic -->
+                  </div>
+
+                  <h5 class="section-sub-title">Formatting & Impact Recommendations</h5>
+                  <ul class="suggestions-list" id="resumeSuggestions">
+                    <!-- Dynamic -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Settings / API Configuration Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal card">
+      <div class="modal-header">
+        <h3>AI Mentor & API Settings</h3>
+        <button class="modal-close-btn" id="closeSettingsBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          By default, this application runs a high-fidelity **local simulator** that simulates AI counselor chats, mock interviews, and ATS scoring offline. 
+          To unlock **live, dynamic responses**, you can paste your personal Google Gemini API key below.
+        </p>
+        <div class="info-alert">
+          <span class="alert-icon">🔒</span>
+          <p class="alert-text">Your API Key is stored safely on your own computer in local storage and is sent directly to Google APIs. It is never sent to external servers.</p>
+        </div>
+        <div class="form-group">
+          <label for="geminiApiKey">Google Gemini API Key</label>
+          <input type="password" id="geminiApiKey" placeholder="AIzaSy..." class="form-input">
+          <small class="form-help">Don't have a key? You can get one for free at Google AI Studio.</small>
+        </div>
+        <div class="form-group">
+          <label for="studentName">Student Name</label>
+          <input type="text" id="studentName" placeholder="Explorer" class="form-input">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="secondary-btn" id="clearSettingsBtn">Reset Settings</button>
+        <button class="primary-btn" id="saveSettingsBtn">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script Declarations -->
+  <script src="js/data.js"></script>
+  <script src="js/assessment.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/roadmap.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/interview.js"></script>
+  <script src="js/resume.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
